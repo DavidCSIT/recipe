@@ -14,7 +14,9 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        //
+        $recipes = recipe::all();
+        return view('recipes.index', ['recipes'=>$recipes]);
+
     }
 
     /**
@@ -24,7 +26,7 @@ class RecipeController extends Controller
      */
     public function create()
     {
-        //
+        return view('recipes.create');
     }
 
     /**
@@ -35,7 +37,21 @@ class RecipeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+      // dd($request);
+      $validatedAttributes =  request()->validate([
+         'name'=> 'required',
+         // 'image'=> 'required',
+         'serves'=> 'required',
+         'rating'=> 'required',
+         'prepTime'=> 'required',
+         'ingredients'=> 'required',
+         'steps'=> 'required'
+       ]);
+
+
+
+      Recipe::create($validatedAttributes);
     }
 
     /**
