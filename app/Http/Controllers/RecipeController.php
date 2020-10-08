@@ -39,9 +39,9 @@ class RecipeController extends Controller
     {
 
       // dd($request);
-      $validatedAttributes =  request()->validate([
+      request()->validate([
          'name'=> 'required',
-         // 'image'=> 'required',
+         'image'=> 'required',
          'serves'=> 'required',
          'rating'=> 'required',
          'prepTime'=> 'required',
@@ -49,10 +49,21 @@ class RecipeController extends Controller
          'steps'=> 'required'
        ]);
 
+      $recipe = new Recipe();
+      $recipe->name = request('name');
+      $recipe->serves =  request('serves');
+      $recipe->image =  request('image');
+      $recipe->rating =  request('rating');
+      $recipe->prepTime =  request('prepTime');
+      $recipe->ingredients =  request('ingredients');
+      $recipe->steps =  request('steps');
+      $recipe->user_id =  '1';
+      $recipe->save();
 
-
-      Recipe::create($validatedAttributes);
+      return redirect('/recipes');
     }
+
+
 
     /**
      * Display the specified resource.
@@ -62,7 +73,10 @@ class RecipeController extends Controller
      */
     public function show(recipe $recipe)
     {
-        //
+      //$recipe = recipe::find($id);
+      return view('recipes.show', ['recipe'=>$recipe]);
+
+
     }
 
     /**
@@ -73,7 +87,7 @@ class RecipeController extends Controller
      */
     public function edit(recipe $recipe)
     {
-        //
+        return view('recipes.edit', ['recipe'=>$recipe]);
     }
 
     /**
@@ -85,8 +99,23 @@ class RecipeController extends Controller
      */
     public function update(Request $request, recipe $recipe)
     {
-        //
+      // dd($request);
+      request()->validate([
+        'name'=> 'required',
+        'image'=> 'required',
+        'serves'=> 'required',
+        'rating'=> 'required',
+        'prepTime'=> 'required',
+        'ingredients'=> 'required',
+        'steps'=> 'required'
+      ]);
+
+      $recipe->update($request->all());
+
+    // return redirect('recipes/1' . $recipe->id);
+     return redirect('recipes');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -96,6 +125,7 @@ class RecipeController extends Controller
      */
     public function destroy(recipe $recipe)
     {
-        //
+        $recipe->delete();
+        return redirect('recipes');
     }
 }
