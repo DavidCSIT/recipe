@@ -62,8 +62,15 @@
             <td>{{ $value->ingredients }}</td>
             <td>{{ $value->steps }}</td>
             <td>
-                <a class="mt-1 mx-auto btn btn-small btn-success" href="recipes/{{$value->id}}">Show this recipe</a>
-                <a class="mt-1 mx-auto btn btn-small btn-info" href="recipes/{{$value->id}}/edit">Edit this recipe</a>
+                <form action="recipes/{{$value->id}}" method="POST">
+                  @csrf
+                  @method('DELETE')
+
+                  <a class="mt-1 mx-auto btn btn-small btn-success" href="recipes/{{$value->id}}">Show this recipe</a>
+                  <a class="mt-1 mx-auto btn btn-small btn-info" href="recipes/{{$value->id}}/edit">Edit this recipe</a>
+
+                  <button type="submit" title="delete" class="mt-1 mx-auto btn btn-small btn-danger" >Delete this recipe</button>
+              </form>
             </td>
         </tr>
     @endforeach
